@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<project name="examples" default="junitgui" basedir=".">
+<property name="junitJar" value="\junit3.8.1\junit.jar" />
+<property name="src.dir" value="${basedir}\src" />
+<property name="build.dir" value="${basedir}\classes" />
+<path id="classpath">
+<pathelement location="${junitJar}" />
+<pathelement location="${build.dir}" />
+</path>
+<target name="init">
+<mkdir dir="${build.dir}" />
+</target>
+<target name="build" depends="init" description="build all">
+<javac
+srcdir="${src.dir}" destdir="${build.dir}" includes="**">
+<classpath refid="classpath” />
+</javac>
+</target>
+<target name="junitgui" depends="build">
+<java classname="junit.swingui.TestRunner" fork="yes">
+<arg value="AllTests" />
+<classpath refid="classpath" />
+</java>
+</target>
+<target name="clean">
+<delete dir="${build.dir}" />
+</target>
+</project>

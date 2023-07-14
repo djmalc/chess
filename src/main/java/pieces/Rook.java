@@ -1,16 +1,16 @@
 package pieces;
 
-public class Knight extends Piece {
-	public Knight(Color color) {
+public class Rook extends Piece {
+	Rook(Color color) {
 		super(color);
 	}
 
 	protected char getBaseRepresentation() {
-		return 'n';
+		return 'r';
 	}
 
 	@Override
 	public double getBaseValue() {
-		return 2.5;
+		return 5.0;
 	}
 }

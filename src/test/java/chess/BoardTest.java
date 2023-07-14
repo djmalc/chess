@@ -1,28 +1,45 @@
 package chess;
 
-import pieces.Pawn;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-
 import static org.junit.jupiter.api.Assertions.*;
+
+import pieces.*;
+import pieces.Piece;
+import static pieces.Piece.Color.*;
+//import static pieces.Piece.Type.*;
+
 public class BoardTest {
-    @Test
-    public void testCreate() {
-        Board board = new Board();
-        Pawn whitePawn = new Pawn(Pawn.WHITE);
-        board.addPiece(whitePawn);
-        assertEquals(1, board.pieceCount());
-        ArrayList<Pawn> pieces = board.getPieces();
+	private Board board;
 
-        assertEquals(pieces.get(0), whitePawn);
+	@BeforeEach
+	protected void setUp() {
+		board = new Board();
+	}
 
-        Pawn blackPawn = new Pawn(Pawn.BLACK);
-        board.addPiece(blackPawn);
-        assertEquals(2, board.pieceCount());
+	@Test
+	public void testCreate() {
+		// spot check the corners
+		assertEquals(Piece.noPiece(), board.get("a1"));
+		assertEquals(Piece.noPiece(), board.get("a8"));
+		assertEquals(Piece.noPiece(), board.get("h1"));
+		assertEquals(Piece.noPiece(), board.get("h8"));
+	}
+	
+	@Test
+	public void testPlacement() {
+		board.put("b6", Piece.createBlackKing());
+		board.put("b5", Piece.createBlackRook());
+		board.put("c4", Piece.createWhiteKing());
+		assertPiece(BLACK, King.class, board.get("b6"));
+		assertPiece(BLACK, Rook.class, board.get("b5"));
+		assertPiece(WHITE, King.class, board.get("c4"));
+	}
 
-        assertEquals(whitePawn, pieces.get(0));
-        assertEquals(blackPawn, pieces.get(1));
-
-    }
+	
+	public static void assertPiece(Piece.Color color, Class klass, Piece piece) {
+		assertEquals(color, piece.getColor());
+		assertEquals(klass, piece.getClass());
+	}
 }
